@@ -24,4 +24,4 @@ function [Out] = drawRectangle(OriginX, OriginY, SizeX, SizeY)
 end
 
 %Saludos Pepe
-    
+    %Adiós

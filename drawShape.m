@@ -7,3 +7,5 @@ elseif strcmp(shape, 'rectangle')
         Out = rectangle('Position',[XCenter - XRadio, YCenter - YRadio, 2*XRadio, 2*YRadio],...
         'Curvature', [0 0], 'FaceColor','red');
 end
+
+%Hasta luego PEPE

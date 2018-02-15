@@ -1,5 +1,5 @@
 %Funcion para dibujar rectangulo dando el origen y el tamaño
-%Comments....
+
 function [Out] = drawRectangle(OriginX, OriginY, SizeX, SizeY)
     
   
@@ -23,5 +23,5 @@ function [Out] = drawRectangle(OriginX, OriginY, SizeX, SizeY)
     end
 end
 
-    
+%Saludos Pepe
     

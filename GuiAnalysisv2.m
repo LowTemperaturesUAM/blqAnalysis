@@ -61,6 +61,9 @@ global MaxCorteConductancia
 global MinCorteConductancia
 global SaveFolder
 global TransformadasSimetrizadas
+global Transformadas
+global MapasConductancia
+global MatrizCorriente
 
 Energia                      = Struct.Energia;
 DistanciaColumnas            = Struct.DistanciaColumnas;
@@ -81,6 +84,7 @@ Columnas                     = Struct.Columnas;
 MaxCorteConductancia         = Struct.MaxCorteConductancia;
 MinCorteConductancia         = Struct.MinCorteConductancia;
 SaveFolder                   = Struct.SaveFolder;
+MatrizCorriente              = Struct.MatrizCorriente;
 
 
 % End initialization code - DO NOT EDIT
@@ -426,6 +430,7 @@ function minValueRealSpace_CreateFcn(hObject,~,~)
 global MaxCorteConductancia;
     global MinCorteConductancia;
     
+   
     set(hObject,'Max', MaxCorteConductancia)
     set(hObject,'Min', MinCorteConductancia)
 handles.MinRealValueTxt.String = round(hObject.Value, 4); 
@@ -702,6 +707,7 @@ function figure1_WindowButtonUpFcn(~, ~, handles)
         global Voltaje
         global MatrizNormalizada
         global MapasConductanciaEqualizados
+        global MatrizCorriente
 
 [ax, btn, Movimiento] = Up();
     Ratio = (ax.XLim(2) - ax.XLim(1))/...
@@ -731,7 +737,7 @@ if strcmp(btn, 'normal') && ~Movimiento
         else
             Struct.Puntero = [punteroT(1,1), punteroT(1,2)];
         end
-
+         size(MatrizCorriente)
         curvaUnicaPA(Struct.Puntero, MapasConductanciaEqualizados{k}, Voltaje,MatrizNormalizada, DistanciaColumnas,DistanciaFilas,true);
     
     elseif strcmp(ax.Tag,'fourierSpaceImage') && ~Movimiento
@@ -893,28 +899,29 @@ FigExtra.Visible = 'off';
         Ratio = (handles.fourierSpaceImage.XLim(2) - handles.fourierSpaceImage.XLim(1))/...
         (handles.fourierSpaceImage.YLim(2) - handles.fourierSpaceImage.YLim(1));
  
-   Imagen.Parent.DataAspectRatio = [100,200*Ratio,1];
+   %Imagen.Parent.DataAspectRatio = [100,200*Ratio,1];
     ax=gca;
-    
+ 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Personalizacion ticks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
 %     ax.XTick = [handles.fourierSpaceImage.XLim(1) handles.fourierSpaceImage.XLim(1)*0.8 handles.fourierSpaceImage.XLim(1)*0.6 handles.fourierSpaceImage.XLim(1)*0.4 handles.fourierSpaceImage.XLim(1)*0.2 0 handles.fourierSpaceImage.XLim(2)*0.2 handles.fourierSpaceImage.XLim(2)*0.4 handles.fourierSpaceImage.XLim(2)*0.6 handles.fourierSpaceImage.XLim(2)*0.8 handles.fourierSpaceImage.XLim(2)];
 %     ax.XTickLabel = {'-1' ' ' '-0.6' ' ' '-0.2' ' ' '0.2' ' ' '0.6' ' ' '1'}';
-%     ax.XTickLabel = [];
+%     %ax.XTickLabel = [];
 %     ax.YTick = [handles.fourierSpaceImage.YLim(1) handles.fourierSpaceImage.YLim(1)*0.8 handles.fourierSpaceImage.YLim(1)*0.6 handles.fourierSpaceImage.YLim(1)*0.4 handles.fourierSpaceImage.YLim(1)*0.2 0 handles.fourierSpaceImage.YLim(2)*0.2 handles.fourierSpaceImage.YLim(2)*0.4 handles.fourierSpaceImage.YLim(2)*0.6 handles.fourierSpaceImage.YLim(2)*0.8 handles.fourierSpaceImage.YLim(2)];
 %     ax.YTickLabel = {'-1','-0.8','-0.6','-0.4','-0.2','0','0.2','0.4','0.6','0.8','1'}';
-%     ax.yTickLabel = [];
+%     %ax.YTickLabel = [];
 %     ax.LineWidth =2;
 %     ax.FontWeight = 'bold';
-%     ax.Visible = 'off';
+    ax.Visible = 'off';
 
 %%%%%%%%%%%%%%%SIN BORDES%%%%%%%%%%%%%%
-%       ax.Position = ax.OuterPosition;
-%       fig = gcf;
-%       fig.Position = [540 100 400 400/Ratio];
-%       fig.PaperPositionMode = 'auto';
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      ax.Position = ax.OuterPosition;
+      fig = gcf;
+      fig.Resize = 'off';
+      fig.Position = [540 100 400 400/Ratio];
+      fig.PaperPositionMode = 'auto';
+%     
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -1122,3 +1129,43 @@ function BrillouinBox_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of BrillouinBox
+
+
+% --- Executes on button press in SaveStructButton.
+function SaveStructButton_Callback(hObject, eventdata, handles)
+% hObject    handle to SaveStructButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+global FilePath
+
+global Transformadas
+global DistanciaFourierColumnas
+global DistanciaFourierFilas
+global DistanciaColumnas
+global DistanciaFilas
+global Energia
+global TamanhoRealColumnas
+global TamanhoRealFilas
+global ParametroRedColumnas
+global ParametroRedFilas
+global MatrizNormalizada
+global MapasConductancia
+a=2
+
+InfoStruct.Transformadas                = Transformadas;
+InfoStruct.DistanciaFourierColumnas     = DistanciaFourierColumnas;
+InfoStruct.DistanciaFourierFilas        = DistanciaFourierFilas;
+InfoStruct.DistanciaColumnas            = DistanciaColumnas;
+InfoStruct.DistanciaFilas               = DistanciaFilas;
+InfoStruct.Energia                      = Energia;
+InfoStruct.TamanhoRealColumnas          = TamanhoRealColumnas;
+InfoStruct.TamanhoRealFilas             = TamanhoRealFilas;
+InfoStruct.ParametroRedColumnas         = ParametroRedColumnas;
+InfoStruct.ParametroRedFilas            = ParametroRedFilas;
+InfoStruct.MatrizNormalizada            = MatrizNormalizada;
+InfoStruct.MapasConductancia            = MapasConductancia;
+
+%save([FilePath, 'infostruct.mat'], 'InfoStruct');
+
+save('C:\Users\franm\OneDrive - Universidad Autónoma de Madrid (1)\Doctorado\Análisis\WTe2\Archivos de análisis\M09_A0\infostruct.mat', 'InfoStruct');

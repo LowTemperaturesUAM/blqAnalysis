@@ -91,26 +91,26 @@ function [TransformadasSimetrizadas] = simetrizarFFT_Automatico(TransformadasEqu
         
 %           SIMETRIA HERMANN
 %   Concentra todo en un cuadrante y replica
-% ---------------------------------------------     
-%         XCentro = Columnas/2;
-%         YCentro = Filas/2;
-%         for i = 1:Columnas/2
-%             for j = 1:Filas/2
-%                 MatrizSymetrizada(XCentro+j,YCentro+i) = (1/4)*(MatrizRotadaZoom(XCentro+j,YCentro+i) +MatrizRotadaZoom(XCentro-(j-1),YCentro+i)+MatrizRotadaZoom(XCentro-(j-1),YCentro-(i-1))+MatrizRotadaZoom(XCentro+j,YCentro-(i-1)));
-%                 MatrizSymetrizada(XCentro-(j-1),YCentro+i) = MatrizSymetrizada(XCentro+j,YCentro+i);
-%                 MatrizSymetrizada(XCentro-(j-1),YCentro-(i-1)) = MatrizSymetrizada(XCentro+j,YCentro+i);
-%                 MatrizSymetrizada(XCentro+j,YCentro-(i-1)) = MatrizSymetrizada(XCentro+j,YCentro+i);
-%             end
-%         end
+% % ---------------------------------------------     
+        XCentro = Columnas/2;
+        YCentro = Filas/2;
+        for i = 1:Columnas/2
+            for j = 1:Filas/2
+                MatrizSymetrizada(XCentro+j,YCentro+i) = (1/4)*(MatrizRotadaZoom(XCentro+j,YCentro+i) +MatrizRotadaZoom(XCentro-(j-1),YCentro+i)+MatrizRotadaZoom(XCentro-(j-1),YCentro-(i-1))+MatrizRotadaZoom(XCentro+j,YCentro-(i-1)));
+                MatrizSymetrizada(XCentro-(j-1),YCentro+i) = MatrizSymetrizada(XCentro+j,YCentro+i);
+                MatrizSymetrizada(XCentro-(j-1),YCentro-(i-1)) = MatrizSymetrizada(XCentro+j,YCentro+i);
+                MatrizSymetrizada(XCentro+j,YCentro-(i-1)) = MatrizSymetrizada(XCentro+j,YCentro+i);
+            end
+        end
 % ---------------------------------------------        
 % ---------------------------------------------
 %           SIMETRIA ESPEJANDO
 %   Espeja en ejes perpendiculares
 % ---------------------------------------------      
-        for i = 1:Columnas/2
-            MatrizSymetrizada(i,:) = (1/2)*( MatrizRotadaZoom(i,:) + MatrizRotadaZoom(Columnas-(i-1),:));
-            MatrizSymetrizada(Columnas-(i-1),:) = MatrizSymetrizada(i,:);
-        end
+%         for i = 1:Columnas/2
+%             MatrizSymetrizada(i,:) = (1/2)*( MatrizRotadaZoom(i,:) + MatrizRotadaZoom(Columnas-(i-1),:));
+%             MatrizSymetrizada(Columnas-(i-1),:) = MatrizSymetrizada(i,:);
+%         end
 % ---------------------------------------------
 %               SIMETRÍA C4
 %   Roto la matriz 4 veces y hago el promedio de las 4
@@ -122,6 +122,24 @@ function [TransformadasSimetrizadas] = simetrizarFFT_Automatico(TransformadasEqu
 %         for i = 1:Filas
 %             MatrizSymetrizada(i,:) = (MatrizRotadaZoom(i,:)+M1(i,:)+M2(i,:)+M3(i,:))/4;
 %         end
+% ---------------------------------------------
+
+% SIMETRÍA C4 bien
+% Roto la matriz 4 veces y hago el promedio de las 4
+% ---------------------------------------------
+% M1 = imrotate(MatrizRotadaZoom,90);
+% M2 = imrotate(MatrizRotadaZoom,180);
+% M3 = imrotate(MatrizRotadaZoom,270);
+% 
+% ME = flipud(MatrizRotadaZoom);
+% ME1 = imrotate(ME,90);
+% ME2 = imrotate(ME,180);
+% ME3 = imrotate(ME,270);
+% 
+% for i = 1:Filas
+% MatrizSymetrizada(i,:) = (MatrizRotadaZoom(i,:)+M1(i,:)+M2(i,:)+M3(i,:)...
+% +ME(i,:)+ME1(i,:)+ME2(i,:)+ME3(i,:))/8;
+% end
 % ---------------------------------------------
 
 %   Invertimos la matriz antes de sacarla para ponerla en la orientación

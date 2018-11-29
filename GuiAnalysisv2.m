@@ -85,6 +85,9 @@ MaxCorteConductancia         = Struct.MaxCorteConductancia;
 MinCorteConductancia         = Struct.MinCorteConductancia;
 SaveFolder                   = Struct.SaveFolder;
 MatrizCorriente              = Struct.MatrizCorriente;
+MapasConductancia            = Struct.MapasConductancia;
+Transformadas                = Struct.Transformadas;
+
 
 
 % End initialization code - DO NOT EDIT
@@ -1151,6 +1154,7 @@ global ParametroRedColumnas
 global ParametroRedFilas
 global MatrizNormalizada
 global MapasConductancia
+global SaveFolder
 a=2
 
 InfoStruct.Transformadas                = Transformadas;
@@ -1167,5 +1171,5 @@ InfoStruct.MatrizNormalizada            = MatrizNormalizada;
 InfoStruct.MapasConductancia            = MapasConductancia;
 
 %save([FilePath, 'infostruct.mat'], 'InfoStruct');
-
-save('C:\Users\franm\OneDrive - Universidad Autónoma de Madrid (1)\Doctorado\Análisis\WTe2\Archivos de análisis\M09_A0\infostruct.mat', 'InfoStruct');
+[SaveFolder] = uigetdir(SaveFolder,'Save InfoStruct');
+save([SaveFolder '\infostruct.mat'], 'InfoStruct');
